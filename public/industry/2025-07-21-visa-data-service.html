@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa 数据服务交互式信息图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in-out;
+            overflow: hidden;
+        }
+        .card-header {
+            cursor: pointer;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out;
+            padding: 0 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .card-body.open {
+            max-height: 1500px; /* A large enough value */
+            padding: 1.5rem;
+        }
+        .arrow {
+            transition: transform 0.3s ease-in-out;
+            width: 24px;
+            height: 24px;
+        }
+        .open .arrow {
+            transform: rotate(180deg);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-top: 0.5rem;
+        }
+        .pill {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .bg-blue-100 { background-color: #dbeafe; }
+        .text-blue-800 { color: #1e40af; }
+        .bg-green-100 { background-color: #d1fae5; }
+        .text-green-800 { color: #065f46; }
+        .bg-yellow-100 { background-color: #fef9c3; }
+        .text-yellow-800 { color: #854d0e; }
+        .bg-purple-100 { background-color: #f3e8ff; }
+        .text-purple-800 { color: #6b21a8; }
+        .bg-red-100 { background-color: #fee2e2; }
+        .text-red-800 { color: #991b1b; }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 1rem;
+        }
+        .vs-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #1a237e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+            box-shadow: 0 0 15px rgba(26, 35, 126, 0.5);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Visa 数据服务</h1>
+            <h2 class="text-xl md:text-2xl font-light text-gray-600">交互式信息图</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-gray-500">
+                本报告将 Visa 的数据服务生态系统进行可视化呈现。所有信息均提炼自公开报告。点击下方卡片以展开查看详细信息。
+            </p>
+        </header>
+
+        <!-- Key Stats -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 text-center">核心数据概览：Visa 的数据帝国</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="stat-card">
+                    <div id="transactions" class="stat-number">0</div>
+                    <div class="stat-label">年处理交易 (亿笔)</div>
+                </div>
+                <div class="stat-card">
+                    <div id="volume" class="stat-number">0</div>
+                    <div class="stat-label">年支付总额 (万亿美元)</div>
+                </div>
+                <div class="stat-card">
+                    <div id="cards" class="stat-number">0</div>
+                    <div class="stat-label">全球发行卡量 (亿张)</div>
+                </div>
+                <div class="stat-card">
+                    <div id="merchants" class="stat-number">0</div>
+                    <div class="stat-label">全球受理商户 (亿家)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Portfolio -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 text-center">核心数据产品矩阵</h3>
+            <div class="space-y-4">
+                <!-- VAP -->
+                <div class="card" data-card>
+                    <div class="card-header">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 mr-4"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20V16"/></svg>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">Visa Analytics Platform (VAP)</h4>
+                                <p class="text-sm text-gray-500">自助式分析平台</p>
+                            </div>
+                        </div>
+                        <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-4 text-gray-600">专为金融机构设计的旗舰级自助分析解决方案，提供投资组合表现分析与强大的同行基准比较。</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">关键信息</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li><span class="font-medium">目标受众:</span> 金融机构 (银行、信用合作社)</li>
+                                    <li><span class="font-medium">产品形态:</span> 基于 Web 的仪表盘、可视化图表和报告</li>
+                                    <li><span class="font-medium">核心数据:</span> 聚合、匿名的 VisaNet 交易数据</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">应用成果</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li>Luminor 银行月增 <span class="font-bold text-green-600">50万欧元</span> 销售额</li>
+                                    <li>Advancial 信用合作社持卡人消费增长 <span class="font-bold text-green-600">22%</span></li>
+                                    <li>满足 PSD2 强客户认证 (SCA) 合规要求</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VCA -->
+                <div class="card" data-card>
+                    <div class="card-header">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-600 mr-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">Visa Consulting & Analytics (VCA)</h4>
+                                <p class="text-sm text-gray-500">专家驱动的战略咨询</p>
+                            </div>
+                        </div>
+                        <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-4 text-gray-600">Visa 的全球咨询业务部门，由咨询顾问、数据科学家和经济学家组成，为客户解决复杂的战略问题。</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">关键信息</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li><span class="font-medium">目标受众:</span> 金融机构、商户、金融科技公司、政府</li>
+                                    <li><span class="font-medium">产品形态:</span> 基于项目的人工咨询服务</li>
+                                    <li><span class="font-medium">核心能力:</span> 庞大的数据资产 + 超过 <span class="font-bold">150个</span> 专有AI模型</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">应用成果</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li>信用卡申请批准率提高 <span class="font-bold text-green-600">5个百分点</span></li>
+                                    <li>交易增长率提升 <span class="font-bold text-green-600">21%</span></li>
+                                    <li>忠诚度计划使客户流失率降低 <span class="font-bold text-green-600">25%</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk & Identity -->
+                <div class="card" data-card>
+                    <div class="card-header">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 mr-4"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777z"/><path d="M11 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-5"/><line x1="16" y1="3" x2="21" y2="8"/></svg>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">风险与授权工具 (VMRI & VAA)</h4>
+                                <p class="text-sm text-gray-500">商户欺诈与授权优化</p>
+                            </div>
+                        </div>
+                        <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-4 text-gray-600">一套专注于帮助商户打击欺诈和提高交易成功率的数据驱动工具，VAA 是一个毫秒级实时AI风险评分引擎。</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-semibold mb-2">关键信息</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li><span class="font-medium">目标受众:</span> 商户、发卡行</li>
+                                    <li><span class="font-medium">产品形态:</span> 基准分析工具 (VMRI) + 实时AI风险评分 (VAA)</li>
+                                    <li><span class="font-medium">核心逻辑:</span> 将交易路由至Visa的商户可获最大收益</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2">应用成果</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li>某数字商户交易批准率提高 <span class="font-bold text-green-600">10%</span></li>
+                                    <li>同时欺诈率降低 <span class="font-bold text-green-600">30%</span></li>
+                                    <li>VAA 每年帮助银行防止约 <span class="font-bold text-green-600">250亿美元</span> 的欺诈损失</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vertical Solutions -->
+                <div class="card" data-card>
+                    <div class="card-header">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600 mr-4"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                            <div>
+                                <h4 class="text-lg font-semibold text-gray-800">行业垂直解决方案</h4>
+                                <p class="text-sm text-gray-500">旅游与零售业深度应用</p>
+                            </div>
+                        </div>
+                        <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-4 text-gray-600">Visa 将通用数据能力打包成特定解决方案，以解决旅游和零售等垂直行业的独特痛点。</p>
+                        <div class="space-y-4">
+                            <div>
+                                <h5 class="font-semibold mb-2 text-base">Visa Destination Insights (VDI) - 旅游业</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li><span class="font-medium">目标:</span> 目的地营销组织、政府、酒店、航司</li>
+                                    <li><span class="font-medium">洞察:</span> 游客来源地、消费行为、季节性趋势、同行基准</li>
+                                    <li><span class="font-medium">成果:</span> 帮助太浩湖来自德国的游客数增长 <span class="font-bold text-green-600">21%</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold mb-2 text-base">零售与电子商务</h5>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1 text-sm">
+                                    <li><span class="font-medium">营销优化:</span> 与Analytic Partners合作，融合消费洞察与营销分析</li>
+                                    <li><span class="font-medium">客户行为:</span> 利用VAP分析高消费客群与跨渠道行为</li>
+                                    <li><span class="font-medium">欺诈管理:</span> VAA和eTD工具对防范无卡交易欺诈至关重要</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Pricing Model -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 text-center">商业模式与定价策略</h3>
+            <div class="card p-6">
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="p-4 border-r border-gray-200">
+                        <h4 class="font-bold text-lg text-blue-800 mb-2">“联系销售”模式</h4>
+                        <p class="text-sm text-gray-600">几乎所有高级服务均无公开报价，旨在进行基于价值的定价，防止产品商品化。</p>
+                    </div>
+                    <div class="p-4 border-r border-gray-200">
+                        <h4 class="font-bold text-lg text-blue-800 mb-2">多模式收费</h4>
+                        <p class="text-sm text-gray-600">结合订阅/许可费 (VAP)、项目费 (VCA) 和基于用量的API费用。</p>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-lg text-blue-800 mb-2">间接商业化</h4>
+                        <p class="text-sm text-gray-600">将数据工具的访问权限与核心支付网络的交易量捆绑，构建强大的“数据护城河”。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Competitive Landscape -->
+        <section class="mb-12">
+            <h3 class="text-2xl font-bold text-gray-700 mb-6 text-center">竞争格局：Visa vs. Mastercard</h3>
+            <div class="card p-6">
+                <div class="comparison-grid">
+                    <!-- Visa Side -->
+                    <div class="text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa Logo" class="h-8 mx-auto mb-4">
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">“合作” 哲学</h4>
+                        <p class="text-sm text-gray-600">在高级营销分析等领域，倾向于与一流的专业公司 (如 Analytic Partners) 合作，策略更灵活，资本更轻。</p>
+                    </div>
+                    <!-- VS -->
+                    <div class="vs-circle">VS</div>
+                    <!-- Mastercard Side -->
+                    <div class="text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard Logo" class="h-8 mx-auto mb-4">
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">“收购” 哲学</h4>
+                        <p class="text-sm text-gray-600">通过战略性收购 (如 Dynamic Yield, Test & Learn) 来拥有端到端的技术栈，旨在提供更集成的解决方案。</p>
+                    </div>
+                </div>
+                 <p class="text-center text-xs text-gray-500 mt-4">这是一个根本性的战略分歧，揭示了两者对未来价值创造的不同看法。</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 py-6 border-t">
+            <p class="text-sm text-gray-500">&copy; 2024 | 基于公开信息制作的交互式分析报告。</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Card accordion functionality
+            const cards = document.querySelectorAll('[data-card]');
+            cards.forEach(card => {
+                const header = card.querySelector('.card-header');
+                const body = card.querySelector('.card-body');
+                header.addEventListener('click', () => {
+                    // Close other open cards
+                    cards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.querySelector('.card-body').classList.remove('open');
+                            otherCard.querySelector('.card-header').classList.remove('open');
+                        }
+                    });
+
+                    // Toggle current card
+                    body.classList.toggle('open');
+                    header.classList.toggle('open');
+                });
+            });
+
+            // Animated number counters
+            function animateValue(obj, start, end, duration, suffix = '', isFloat = false) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    let currentValue = progress * (end - start) + start;
+                    if (isFloat) {
+                        obj.innerHTML = currentValue.toFixed(1) + suffix;
+                    } else {
+                        obj.innerHTML = Math.floor(currentValue) + suffix;
+                    }
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            const transactions = document.getElementById('transactions');
+            const volume = document.getElementById('volume');
+            const cardsEl = document.getElementById('cards');
+            const merchants = document.getElementById('merchants');
+
+            animateValue(transactions, 0, 2960, 2000);
+            animateValue(volume, 0, 13.2, 2000, '', true);
+            animateValue(cardsEl, 0, 45, 2000);
+            animateValue(merchants, 0, 1.3, 2000, '', true);
+        });
+    </script>
+
+</body>
+</html>

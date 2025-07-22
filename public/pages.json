@@ -1,0 +1,15 @@
+{
+  "categories": {
+    "industry": {
+      "name": "行业 Industry",
+      "icon": "💰",
+      "articles": [
+        {
+          "title": "Visa 数据服务交互式信息图",
+          "url": "industry/2025-07-21-visa-data-service.html",
+          "date": "2025-07-21"
+        }
+      ]
+    }
+  }
+}
