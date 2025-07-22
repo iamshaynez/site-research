@@ -5,6 +5,16 @@
       "icon": "💰",
       "articles": [
         {
+          "title": "银联数据服务交互式信息图",
+          "url": "industry/2025-07-22-unionpay-data-service.html",
+          "date": "2025-07-22"
+        },
+        {
+          "title": "万事达卡数据服务交互式信息图",
+          "url": "industry/2025-07-21-mastercard-data-service.html",
+          "date": "2025-07-21"
+        },
+        {
           "title": "Visa 数据服务交互式信息图",
           "url": "industry/2025-07-21-visa-data-service.html",
           "date": "2025-07-21"

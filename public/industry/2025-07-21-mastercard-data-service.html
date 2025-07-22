@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万事达卡数据服务交互式信息图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+        }
+        .card-content {
+            padding: 1.5rem;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, padding 0.7s ease-in-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .card.active .card-content {
+            max-height: 1000px; /* Large enough to not clip content */
+            opacity: 1;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .kpi-box {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .arrow {
+            position: absolute;
+            color: #64748b; /* slate-500 */
+        }
+        .arrow-right {
+            top: 50%;
+            left: 100%;
+            transform: translate(50%, -50%);
+        }
+        .arrow-down {
+            left: 50%;
+            top: 100%;
+            transform: translate(-50%, 50%);
+        }
+        .icon-rotate {
+            transition: transform 0.5s ease-in-out;
+        }
+        .card.active .icon-rotate {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900">万事达卡数据服务</h1>
+            <p class="text-lg text-slate-600 mt-2">交互式深度解析</p>
+        </header>
+
+        <!-- Key Metrics -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-center mb-8 text-slate-800">核心数据概览</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 text-center">
+                <div class="kpi-box p-4 rounded-xl shadow-md">
+                    <p class="text-3xl font-bold text-blue-600">~40%</p>
+                    <p class="text-sm text-slate-600 mt-1">数据服务贡献净收入</p>
+                </div>
+                <div class="kpi-box p-4 rounded-xl shadow-md">
+                    <p class="text-3xl font-bold text-blue-600">1590亿+</p>
+                    <p class="text-sm text-slate-600 mt-1">年处理交易量</p>
+                </div>
+                <div class="kpi-box p-4 rounded-xl shadow-md">
+                    <p class="text-3xl font-bold text-blue-600">29亿+</p>
+                    <p class="text-sm text-slate-600 mt-1">全球卡基数</p>
+                </div>
+                <div class="kpi-box p-4 rounded-xl shadow-md">
+                    <p class="text-3xl font-bold text-blue-600">8000万+</p>
+                    <p class="text-sm text-slate-600 mt-1">全球商户网络</p>
+                </div>
+                <div class="kpi-box p-4 rounded-xl shadow-md col-span-2 md:col-span-1">
+                    <p class="text-3xl font-bold text-blue-600">15PB+</p>
+                    <p class="text-sm text-slate-600 mt-1">交易洞察数据</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Virtuous Cycle -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-center mb-12 text-slate-800">战略核心：数据驱动的良性循环</h2>
+            <div class="relative flex flex-col md:flex-row items-center justify-center gap-y-16 md:gap-y-0 md:gap-x-24">
+                <div class="relative text-center p-6 bg-white rounded-lg shadow-lg w-48">
+                    <i data-lucide="network" class="mx-auto h-8 w-8 text-blue-500 mb-2"></i>
+                    <h3 class="font-semibold">支付网络</h3>
+                    <div class="arrow arrow-down md:arrow-right"><i data-lucide="arrow-right-circle" class="h-6 w-6"></i></div>
+                </div>
+                <div class="relative text-center p-6 bg-white rounded-lg shadow-lg w-48">
+                    <i data-lucide="database" class="mx-auto h-8 w-8 text-blue-500 mb-2"></i>
+                    <h3 class="font-semibold">海量数据</h3>
+                    <div class="arrow arrow-down md:arrow-right"><i data-lucide="arrow-right-circle" class="h-6 w-6"></i></div>
+                </div>
+                <div class="relative text-center p-6 bg-white rounded-lg shadow-lg w-48">
+                     <i data-lucide="pie-chart" class="mx-auto h-8 w-8 text-blue-500 mb-2"></i>
+                    <h3 class="font-semibold">数据与服务</h3>
+                    <div class="arrow arrow-down md:arrow-right"><i data-lucide="arrow-right-circle" class="h-6 w-6"></i></div>
+                </div>
+                <div class="relative text-center p-6 bg-white rounded-lg shadow-lg w-48">
+                    <i data-lucide="handshake" class="mx-auto h-8 w-8 text-blue-500 mb-2"></i>
+                    <h3 class="font-semibold">赢得交易</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Portfolio -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-center mb-8 text-slate-800">产品组合 (点击展开)</h2>
+            <div class="space-y-4" id="interactive-cards">
+                <!-- Card 1: Analytics & Insights -->
+                <div class="card">
+                    <div class="card-header flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i data-lucide="bar-chart-3" class="h-8 w-8 text-amber-500 mr-4"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold">分析与洞察平台</h3>
+                                <p class="text-slate-500 text-sm">将海量数据转化为商业智能</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-down" class="h-6 w-6 text-slate-500 icon-rotate"></i>
+                    </div>
+                    <div class="card-content">
+                        <ul class="space-y-4 list-disc list-inside text-slate-700">
+                            <li><strong>SpendingPulse™:</strong> 提供覆盖所有支付方式的宏观零售销售指标、基准和预测。帮助企业评估自身表现，识别市场机会。</li>
+                            <li><strong>Test & Learn®:</strong> 商业实验引擎，通过科学A/B测试，精确量化商业举措(如促销、改造)的真实ROI。宣传平均5倍投资回报率。</li>
+                            <li><strong>投资组合智能:</strong> 面向金融机构，提供Portfolio Optimizer等工具，用于银行卡组合的对标分析和优化。</li>
+                            <li><strong>小企业信贷分析 (SBCA):</strong> 创新的API服务，基于交易数据为小企业提供信用评估洞察，辅助贷款决策。</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Card 2: Consulting -->
+                <div class="card">
+                    <div class="card-header flex justify-between items-center">
+                         <div class="flex items-center">
+                            <i data-lucide="briefcase" class="h-8 w-8 text-cyan-500 mr-4"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold">战略咨询与执行</h3>
+                                <p class="text-slate-500 text-sm">从战略到执行的数据驱动服务</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-down" class="h-6 w-6 text-slate-500 icon-rotate"></i>
+                    </div>
+                    <div class="card-content">
+                        <ul class="space-y-4 list-disc list-inside text-slate-700">
+                            <li><strong>Mastercard Advisors:</strong> 独特的咨询服务，将经典咨询方法与万事达卡专有交易数据相结合，提供更具实证的战略建议。</li>
+                            <li><strong>Managed Services:</strong> 为客户策划并执行数据驱动的市场营销活动，利用跨行业的消费者洞察提升营销效率。</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Card 3: Loyalty -->
+                <div class="card">
+                    <div class="card-header flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i data-lucide="heart-handshake" class="h-8 w-8 text-rose-500 mr-4"></i>
+                            <div>
+                                <h3 class="text-xl font-semibold">客户互动与忠诚度</h3>
+                                <p class="text-slate-500 text-sm">构建端到端的忠诚度解决方案</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-down" class="h-6 w-6 text-slate-500 icon-rotate"></i>
+                    </div>
+                    <div class="card-content">
+                       <ul class="space-y-4 list-disc list-inside text-slate-700">
+                            <li><strong>核心平台:</strong> 通过收购`SessionM`（企业级忠诚度管理）和`Dynamic Yield`（AI个性化引擎），构建了强大的技术基础。</li>
+                            <li><strong>一站式方案:</strong> 结合平台、咨询、实施服务和合作伙伴网络，提供从战略设计到技术搭建和日常运营的全方位忠诚度解决方案。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Pricing Model -->
+        <section class="mb-16">
+             <h2 class="text-2xl font-bold text-center mb-8 text-slate-800">商业与定价模式</h2>
+             <div class="grid md:grid-cols-2 gap-8 items-start">
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                     <div class="flex items-center mb-3">
+                        <i data-lucide="dollar-sign" class="h-6 w-6 text-green-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold">直接定价 (有限)</h3>
+                     </div>
+                     <p class="text-slate-600">定价策略高度不透明，但存在部分产品的独立授权费用。</p>
+                     <div class="mt-4 bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                         <p class="font-bold text-green-800">市场数据 (如SpendingPulse™)</p>
+                         <p class="text-2xl font-bold text-green-700 mt-1">$10万 - $12.5万 / 年</p>
+                         <p class="text-sm text-green-600">(非官方估算)</p>
+                     </div>
+                 </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                     <div class="flex items-center mb-3">
+                        <i data-lucide="package" class="h-6 w-6 text-purple-600 mr-3"></i>
+                        <h3 class="text-lg font-semibold">战略捆绑 (核心模式)</h3>
+                     </div>
+                     <p class="text-slate-600">对于大型战略客户（银行、大型零售商），数据服务成本通常被嵌入到整体合作协议中，作为赢得和维系核心支付业务的战略筹码。</p>
+                     <p class="mt-4 text-purple-800 font-medium">这种模式增强了客户锁定效应，将数据服务转化为强大的竞争护城河。</p>
+                 </div>
+             </div>
+        </section>
+
+        <!-- Vertical Industries -->
+        <section>
+            <h2 class="text-2xl font-bold text-center mb-8 text-slate-800">垂直行业应用 (点击展开)</h2>
+            <div class="space-y-4" id="industry-cards">
+                <!-- Industry 1: Finance -->
+                <div class="card">
+                    <div class="card-header flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i data-lucide="landmark" class="h-8 w-8 text-indigo-500 mr-4"></i>
+                            <h3 class="text-xl font-semibold">金融服务</h3>
+                        </div>
+                        <i data-lucide="chevron-down" class="h-6 w-6 text-slate-500 icon-rotate"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="font-semibold mb-2">核心用例:</p>
+                        <ul class="space-y-2 list-disc list-inside text-slate-700">
+                            <li><strong>投资组合对标分析:</strong> 将银行卡KPI与同业进行对比，发现优劣势。</li>
+                            <li><strong>风险管理与合规:</strong> 利用数据进行压力测试，通过SBCA等工具创新信贷评估。</li>
+                            <li><strong>客户忠诚度优化:</strong> 设计和优化银行卡积分、权益等客户忠诚度计划。</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Industry 2: Retail -->
+                <div class="card">
+                    <div class="card-header flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i data-lucide="shopping-cart" class="h-8 w-8 text-lime-500 mr-4"></i>
+                            <h3 class="text-xl font-semibold">零售与消费品</h3>
+                        </div>
+                        <i data-lucide="chevron-down" class="h-6 w-6 text-slate-500 icon-rotate"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="font-semibold mb-2">核心用例:</p>
+                        <ul class="space-y-2 list-disc list-inside text-slate-700">
+                            <li><strong>商业决策量化:</strong> 使用Test & Learn®评估门店改造、促销活动的真实ROI。</li>
+                            <li><strong>市场表现追踪:</strong> 利用SpendingPulse™进行市场基准比较，调整库存和营销策略。</li>
+                            <li><strong>购物篮分析:</strong> 了解商品关联性，优化商品陈列和捆绑促销。</li>
+                        </ul>
+                    </div>
+                </div>
+                 <!-- Industry 3: Travel -->
+                <div class="card">
+                    <div class="card-header flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i data-lucide="plane" class="h-8 w-8 text-sky-500 mr-4"></i>
+                            <h3 class="text-xl font-semibold">旅游与酒店业</h3>
+                        </div>
+                        <i data-lucide="chevron-down" class="h-6 w-6 text-slate-500 icon-rotate"></i>
+                    </div>
+                    <div class="card-content">
+                        <p class="font-semibold mb-2">核心用例:</p>
+                        <ul class="space-y-2 list-disc list-inside text-slate-700">
+                            <li><strong>游客来源地分析:</strong> 识别关键客源市场，进行精准的旅游营销。</li>
+                            <li><strong>旅游趋势预测:</strong> 预测未来旅游需求，帮助酒店、航司优化定价和运力。</li>
+                            <li><strong>经济影响评估:</strong> 帮助政府和旅游局量化大型活动对当地经济的拉动作用。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-16 py-6 border-t border-slate-200">
+            <p class="text-sm text-slate-500">信息来源：基于万事达卡公开财报、官网信息及行业分析报告整理。</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Function to handle card clicks
+        function handleCardClick(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.addEventListener('click', function(event) {
+                const card = event.target.closest('.card');
+                if (card) {
+                    // Deactivate all other cards in the same container
+                    const allCards = container.querySelectorAll('.card');
+                    allCards.forEach(c => {
+                        if (c !== card && c.classList.contains('active')) {
+                            c.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle the active class on the clicked card
+                    card.classList.toggle('active');
+                }
+            });
+        }
+
+        // Apply click handler to both card sections
+        handleCardClick('interactive-cards');
+        handleCardClick('industry-cards');
+
+    </script>
+</body>
+</html>
