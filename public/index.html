@@ -339,6 +339,147 @@
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            background: white;
+            border-radius: 0;
+            overflow: hidden;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 10001;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            max-width: calc(100% - 120px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #666;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+            padding-top: 60px;
+        }
+
+        .modal-iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            background: white;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007aff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 10002;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Responsive Modal */
+        @media (max-width: 768px) {
+            .modal-header {
+                height: 50px;
+                padding: 0 15px;
+            }
+
+            .modal-title {
+                font-size: 1rem;
+                max-width: calc(100% - 100px);
+            }
+
+            .modal-close {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+
+            .modal-body {
+                padding-top: 50px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -379,6 +520,22 @@
         <section class="articles-section" id="articles-section">
             <!-- Categories will be loaded dynamically -->
         </section>
+
+        <!-- Modal for article content -->
+        <div class="modal" id="article-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="modal-title">加载中...</div>
+                    <button class="modal-close" onclick="closeModal()" aria-label="关闭">
+                        ✕
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="loading-spinner" id="loading-spinner"></div>
+                    <iframe class="modal-iframe" id="modal-iframe" style="display: none;"></iframe>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -441,7 +598,7 @@
                         <ul class="article-list" id="article-list-${categoryKey}">
                             ${articlesForPage.map(article => `
                                 <li class="article-item">
-                                    <a href="${article.url}" class="article-link">
+                                    <a href="#" class="article-link" onclick="openModal('${article.url}', '${article.title.replace(/'/g, "\\'")}'); return false;">
                                         <div class="article-title">${article.title}</div>
                                         <div class="article-date">${article.date}</div>
                                     </a>
@@ -541,7 +698,7 @@
             const articleList = categoryElement.querySelector('.article-list');
             articleList.innerHTML = articlesForPage.map(article => `
                 <li class="article-item">
-                    <a href="${article.url}" class="article-link">
+                    <a href="#" class="article-link" onclick="openModal('${article.url}', '${article.title.replace(/'/g, "\\'")}'); return false;">
                         <div class="article-title">${article.title}</div>
                         <div class="article-date">${article.date}</div>
                     </a>
@@ -602,6 +759,59 @@
             });
         }
 
+        // Modal functionality
+        function openModal(url, title) {
+            const modal = document.getElementById('article-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalIframe = document.getElementById('modal-iframe');
+            const loadingSpinner = document.getElementById('loading-spinner');
+
+            // Set title and show modal
+            modalTitle.textContent = title;
+            modal.classList.add('show');
+            
+            // Show loading spinner and hide iframe
+            loadingSpinner.style.display = 'block';
+            modalIframe.style.display = 'none';
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+            
+            // Load content in iframe
+            modalIframe.src = url;
+            
+            // Handle iframe load event
+            modalIframe.onload = function() {
+                loadingSpinner.style.display = 'none';
+                modalIframe.style.display = 'block';
+            };
+            
+            // Handle iframe error
+            modalIframe.onerror = function() {
+                loadingSpinner.style.display = 'none';
+                modalIframe.style.display = 'block';
+                console.error('Failed to load article:', url);
+            };
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('article-modal');
+            const modalIframe = document.getElementById('modal-iframe');
+            
+            // Hide modal with animation
+            modal.classList.remove('show');
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+            
+            // Clear iframe source after animation completes to free resources
+            setTimeout(() => {
+                modalIframe.src = 'about:blank';
+                modalIframe.onload = null;
+                modalIframe.onerror = null;
+            }, 300);
+        }
+
         // Add smooth scrolling and entrance animations
         document.addEventListener('DOMContentLoaded', function() {
             // Load pages data first
@@ -614,6 +824,29 @@
                     el.style.opacity = '1';
                     el.style.transform = 'translateY(0)';
                 }, index * 100);
+            });
+
+            // Modal event listeners
+            const modal = document.getElementById('article-modal');
+            
+            // Close modal when clicking on backdrop
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal when pressing Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+            
+            // Prevent modal content clicks from closing modal
+            const modalContent = modal.querySelector('.modal-content');
+            modalContent.addEventListener('click', function(e) {
+                e.stopPropagation();
             });
         });
     </script>
