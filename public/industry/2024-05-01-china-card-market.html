@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【信息图】中国银行卡清算产业三十年风云</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+        }
+        /* 为时间线中间的竖线和圆点添加动画效果 */
+        .timeline-line {
+            transition: all 0.3s ease-in-out;
+        }
+        .timeline-point {
+            transition: all 0.3s ease-in-out;
+            transform: scale(0.8);
+        }
+        .timeline-item:hover .timeline-point {
+            transform: scale(1.2);
+            background-color: #FBBF24; /* amber-400 */
+        }
+        .timeline-item:hover .timeline-card {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.1), 0 4px 6px -2px rgba(251, 191, 36, 0.05);
+        }
+        .timeline-card {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <header class="text-center mb-16">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-amber-300 tracking-wider">中国银行卡清算产业三十年风云</h1>
+            <p class="mt-4 text-lg text-gray-400">一部关于技术、地缘政治与国家意志的视觉史</p>
+        </header>
+
+        <!-- Timeline Container -->
+        <div class="relative wrap overflow-hidden p-4 sm:p-10">
+            <!-- The vertical line -->
+            <div class="timeline-line absolute border-2 border-dashed border-gray-700 h-full" style="left: 50%; transform: translateX(-1px);"></div>
+            <div class="timeline-line absolute border-2 border-amber-400 h-full" style="left: 50%; transform: translateX(-1px); width:0;" id="progress-line"></div>
+
+            <!-- Timeline Items -->
+            <div id="timeline-items-container">
+                <!-- Timeline items will be injected here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const timelineData = [
+            {
+                year: "1985年",
+                title: "混沌初开：第一张卡的诞生",
+                description: "中国银行珠海分行发行了中国大陆第一张银行卡“中银卡”。这标志着中国银行卡产业的萌芽，但此时的市场是完全割裂的。",
+                details: "<strong>困境：</strong> 各大银行各自为政，卡不通用，POS机不兼容。商家需摆放一排机器，用户体验极差。这被称为银行卡产业的“蛮荒时代”。",
+                side: 'right'
+            },
+            {
+                year: "1993年",
+                title: "顶层设计：金卡工程启动",
+                description: "国务院启动“金卡工程”，将其作为国家级信息化战略。目标是建立全国统一的银行卡跨行交易网络，实现“联网通用”。",
+                details: "<strong>背景：</strong> 这是应对全球信息化浪潮的国家战略，与“金税”、“金关”并称“三金工程”。旨在用国家意志打破部门壁垒，为金融系统铺设信息高速公路。",
+                side: 'left'
+            },
+            {
+                year: "1993-2002年",
+                title: "美国导师：VISA的早期角色",
+                description: "VISA等国际卡组织进入中国，带来了先进的技术、标准和管理经验，扮演了早期“拓荒者”和“导师”的角色。",
+                details: "<strong>合作与企图：</strong> VISA帮助中国培训人才、建立标准，希望将中国纳入其全球网络。中方则借其经验快速发展。这种合作从一开始就潜藏着利益冲突的种子。",
+                side: 'right'
+            },
+            {
+                year: "2002年",
+                title: "巨龙诞生：中国银联成立",
+                description: "在“金卡工程”基础上，由85家金融机构共同出资成立中国银联。这标志着“联网通用”时代的正式开启。",
+                details: "<strong>国家使命：</strong> 银联被定位为“国家重要金融基础设施”，核心任务是建立自主可控的支付清算体系，推广以“62”开头的银联标准卡，掌握金融主权。",
+                side: 'left'
+            },
+            {
+                year: "2003年",
+                title: "决裂时刻：学徒的反叛",
+                description: "羽翼渐丰的银联希望借道VISA的全球网络让人民币卡“走出去”，但遭到断然拒绝。这成为双方关系从合作走向竞争的转折点。",
+                details: "<strong>摩擦与阳谋：</strong> VISA不愿为自己培养一个强大的竞争对手。这次拒绝让银联清醒地认识到，必须建立自己的国际网络，否则将永远受制于人。“单干”的决心就此立下。",
+                side: 'right'
+            },
+            {
+                year: "2004年起",
+                title: "全球豪赌：银联的非对称竞争",
+                description: "银联开启国际化战略，核心武器是“免收货币转换费”。这精准打击了国际卡组织1%-2%的收费模式，是一种典型的非对称竞争。",
+                details: "<strong>阳谋：</strong> 作为承载国家战略的机构，银联可以不计较短期商业盈利，以补贴市场的方式快速抢占份额。这让以利润为核心的VISA等上市公司感受到了巨大威胁。",
+                side: 'left'
+            },
+            {
+                year: "2010年",
+                title: "通道之战：VISA的“最后通牒”",
+                description: "VISA向全球会员银行发函，禁止在境外受理双币卡时走银联通道，并威胁处以重罚。双方矛盾彻底公开化。",
+                details: "<strong>企图与冲突：</strong> VISA试图用其网络规则和权力，强行切断银联的境外业务，保卫其核心的跨境交易利润。这直接引发了国家层面的金融对抗。",
+                side: 'right'
+            },
+            {
+                year: "2010-2012年",
+                title: "外交前线：中美WTO对决",
+                description: "美国政府正式介入，以“中国银联垄断”为由向WTO提起诉讼，指责中国违反入世承诺，未开放电子支付市场。",
+                details: "<strong>国家博弈：</strong> 美国意图通过WTO机制，撬开中国庞大的国内清算市场。中国则面临金融主权和监管政策的直接挑战。商业纠纷正式升级为地缘政治和法律战争。",
+                side: 'left'
+            },
+            {
+                year: "2012年",
+                title: "一纸判决：WTO裁定中国违规",
+                description: "WTO专家组裁定，中国在电子支付领域对外国供应商存在歧视，要求中国开放银行卡人民币清算市场。",
+                details: "<strong>判决余波：</strong> 美国在法律上赢得了市场准入权，但也加深了双方的战略不信任。中国虽然接受裁决，但开启了长达数年的“战略性拖延”，为国内产业争取时间。",
+                side: 'right'
+            },
+            {
+                year: "2012-2020年",
+                title: "官僚长城：战略性拖延",
+                description: "中国通过复杂的监管程序和高准入门槛，在名义上履行承诺，实际上延缓了外资进入的步伐。",
+                details: "<strong>华盛顿的挫败：</strong> 美国认为中国利用不透明的审批程序作为非关税壁垒，保护银联并扶持支付宝、微信支付等本土巨头崛起。这加剧了美方的对华强硬情绪。",
+                side: 'left'
+            },
+            {
+                year: "2020年",
+                title: "贸易战催化：第一张外资牌照",
+                description: "作为《中美第一阶段经贸协议》的成果，美国运通合资公司“连通公司”获得清算牌照，成为第一家获准处理人民币交易的外资机构。",
+                details: "<strong>历史意义：</strong> 这张牌照是贸易战谈判桌上的关键筹码。对美国，是长期施压换来的胜利；对中国，既是妥协，也是引入“鲶鱼”、推动金融改革和人民币国际化的主动布局。",
+                side: 'right'
+            },
+            {
+                year: "2020年至今",
+                title: "新战场：开放与双线作战",
+                description: "万事达等相继获准进入。外资面对的已是银联、支付宝、微信支付三足鼎立的复杂市场。竞争格局已完全改变。",
+                details: "<strong>未来展望：</strong> 战争并未结束，而是转移到了技术标准、数据治理和全球金融新秩序的话语权之争。中国在开放金融市场的同时，也在大力发展CIPS（人民币跨境支付系统），构建独立于美元的平行金融基础设施，推动人民币国际化。这场关于控制金融动脉的博弈，仍在继续。",
+                side: 'left'
+            }
+        ];
+
+        const container = document.getElementById('timeline-items-container');
+
+        timelineData.forEach((item, index) => {
+            const sideClass = item.side === 'left' ? 'flex-row-reverse' : '';
+            const textAlignClass = item.side === 'left' ? 'text-right' : 'text-left';
+            const itemHTML = `
+                <div class="mb-8 flex justify-between items-center w-full ${sideClass} timeline-item">
+                    <div class="order-1 w-5/12"></div>
+                    <div class="z-20 flex items-center order-1 bg-gray-800 shadow-xl w-12 h-12 rounded-full timeline-point">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="order-1 bg-gray-800 border border-gray-700 rounded-lg shadow-xl w-5/12 px-6 py-4 timeline-card">
+                        <p class="mb-2 text-sm font-bold text-amber-400">${item.year}</p>
+                        <h3 class="mb-3 font-bold text-white text-lg">${item.title}</h3>
+                        <p class="text-sm leading-relaxed tracking-wide text-gray-300 mb-3">${item.description}</p>
+                        <div class="text-xs leading-relaxed tracking-wide text-gray-400 border-l-2 border-amber-400 pl-3">${item.details}</div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += itemHTML;
+        });
+        
+        // Animate progress line on scroll
+        const progressLine = document.getElementById('progress-line');
+        const timelineContainer = document.querySelector('.relative.wrap');
+        
+        window.addEventListener('scroll', () => {
+            const timelineHeight = timelineContainer.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const scrollY = window.scrollY;
+            const timelineTop = timelineContainer.offsetTop;
+
+            let scrollPercent = 0;
+            if (scrollY > timelineTop) {
+                scrollPercent = ((scrollY - timelineTop) / (timelineHeight - windowHeight + 200)) * 100;
+            }
+            scrollPercent = Math.min(100, Math.max(0, scrollPercent));
+            
+            progressLine.style.height = `${scrollPercent}%`;
+        });
+
+    </script>
+</body>
+</html>
