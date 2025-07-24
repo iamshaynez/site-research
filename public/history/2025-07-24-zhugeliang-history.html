@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诸葛亮生平时间线信息图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f0f2f5; /* A light, neutral background */
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background-color: #cbd5e1; /* slate-300 */
+        }
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding-bottom: 50px;
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 50px;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 50px;
+            text-align: left;
+        }
+        .timeline-dot {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 4px solid #475569; /* slate-600 */
+            z-index: 10;
+        }
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -12px;
+            transform: translateX(0%);
+        }
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -12px;
+            transform: translateX(0%);
+        }
+        .source-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        .source-history {
+            background-color: #dbeafe; /* blue-100 */
+            color: #1e40af; /* blue-800 */
+        }
+        .source-novel {
+            background-color: #fee2e2; /* red-100 */
+            color: #991b1b; /* red-800 */
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .timeline-container::before {
+                left: 12px;
+                transform: translateX(0);
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 15px;
+                text-align: left;
+            }
+            .timeline-item:nth-child(odd) {
+                left: 0;
+            }
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            .timeline-dot {
+                left: 0;
+            }
+            .timeline-item:nth-child(odd) .timeline-dot,
+            .timeline-item:nth-child(even) .timeline-dot {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto px-4 py-12">
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800">诸葛亮生平时间线</h1>
+            <p class="text-lg text-slate-600 mt-4 max-w-3xl mx-auto">融汇正史与演义，追寻“卧龙”从南阳布衣到蜀汉丞相的传奇一生。</p>
+            <div class="flex justify-center items-center space-x-4 mt-6">
+                <span class="flex items-center text-sm"><span class="h-3 w-3 rounded-full bg-blue-200 border-2 border-blue-700 mr-2"></span><span class="text-slate-700 font-medium">正史记载</span></span>
+                <span class="flex items-center text-sm"><span class="h-3 w-3 rounded-full bg-red-200 border-2 border-red-700 mr-2"></span><span class="text-slate-700 font-medium">文学演义</span></span>
+            </div>
+        </header>
+
+        <div class="timeline-container relative max-w-5xl mx-auto">
+
+            <!-- Event 1: Birth -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-slate-500">
+                    <time class="text-sm font-semibold text-slate-500">公元 181 年</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">出生与早年流离</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">出生于徐州琅琊郡的官宦世家。因中原战乱，年少时随叔父诸葛玄南下荆州避难，这段经历让他深刻体认到时代的动荡与民生疾苦。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+            
+            <!-- Event 2: Seclusion -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-slate-500 md:border-l-4 md:border-r-0">
+                    <time class="text-sm font-semibold text-slate-500">约 197 - 207 年</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">“卧龙”的蛰伏</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">在南阳郡隆中地区隐居躬耕，静观天下大势。他常自比管仲、乐毅，与徐庶、庞统等名士交好，逐渐建立起“卧龙”的声望，为日后出山做好了充分的知识和人脉储备。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+            <!-- Event 3: Marriage -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-slate-500">
+                    <time class="text-sm font-semibold text-slate-500">约 202 年</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">战略性联姻</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">迎娶荆州名士黄承彦之女黄月英。黄氏家族与荆州牧刘表、蔡瑁等豪族有姻亲关系，这次婚姻使诸葛亮迅速融入荆州上层社会，是其人生中一次关键的政治布局。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+            
+            <!-- Event 4: Longzhong Plan -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-blue-600 md:border-l-4 md:border-r-0">
+                    <time class="text-sm font-semibold text-slate-500">公元 207 年</time>
+                    <h3 class="text-xl font-bold text-blue-800 mt-1">三顾茅庐与《隆中对》</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">刘备三访隆中，27岁的诸葛亮石破天惊地提出了“联孙抗曹、跨有荆益、三分天下”的宏伟蓝图。这不仅是他个人出山的标志，也为刘备集团指明了未来的战略方向。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+            <!-- Event 5: Red Cliffs -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                 <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-slate-500">
+                    <time class="text-sm font-semibold text-slate-500">公元 208 年</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">赤壁之战的外交风云</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">刘备兵败长坂坡后，诸葛亮主动请缨出使东吴，成功说服孙权，促成孙刘联盟，共同抗击曹操。他的核心贡献在于外交，而非军事指挥。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">小说中“舌战群儒”、“草船借箭”、“借东风”等情节，极大地神化了其智谋，但均为文学虚构，其历史原型或为他人他事，或纯属杜撰。</p>
+                    <span class="source-tag source-novel">文学演义</span>
+                </div>
+            </div>
+
+            <!-- Event 6: Entering Shu -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-slate-500 md:border-l-4 md:border-r-0">
+                    <time class="text-sm font-semibold text-slate-500">公元 214 - 221 年</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">入蜀定基，制定《蜀科》</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">刘备夺取益州后，诸葛亮与法正等人共同制定蜀汉的法律《蜀科》，奠定法制基础。刘备称帝后，他被任命为丞相，成为百官之首，负责处理后方政务和后勤保障。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+            <!-- Event 7: Baidicheng -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+                    <time class="text-sm font-semibold text-slate-500">公元 223 年</time>
+                    <h3 class="text-xl font-bold text-blue-800 mt-1">白帝城临危受命</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">夷陵兵败的刘备在白帝城托孤，将后主刘禅与国家大事托付给诸葛亮，并言“君可自取”。诸葛亮涕泣立誓，自此开启“相父”时代，独揽军政大权，开启了“鞠躬尽瘁，死而后已”的后半生。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+            <!-- Event 8: Southern Campaign -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-slate-500 md:border-l-4 md:border-r-0">
+                    <time class="text-sm font-semibold text-slate-500">公元 225 年</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">南征平叛，安抚后方</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">为消除北伐的后顾之忧，亲率大军平定南中叛乱。他采纳马谡“攻心为上”的策略，稳定了南方边境，为蜀汉提供了重要的兵源和物资。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">著名的“七擒孟获”故事，最早见于《汉晋春秋》，后被《三国演义》极大丰富和渲染，成为其怀柔政策的生动写照。</p>
+                    <span class="source-tag source-novel">文学演义</span>
+                </div>
+            </div>
+
+            <!-- Event 9: Chu Shi Biao -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+                    <time class="text-sm font-semibold text-slate-500">公元 227 年</time>
+                    <h3 class="text-xl font-bold text-blue-800 mt-1">上《出师表》，开启北伐</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">在率军进驻汉中准备北伐之际，向后主刘禅呈上千古名篇《出师表》。此文情真意切，逻辑严密，既是出征宣言，也是对后主的殷切嘱托，尽显其忠臣之心。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+            <!-- Event 10: First Expedition -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-red-600 md:border-l-4 md:border-r-0">
+                    <time class="text-sm font-semibold text-slate-500">公元 228 年</time>
+                    <h3 class="text-xl font-bold text-red-800 mt-1">首伐失利，挥泪斩马谡</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">第一次北伐初期势如破竹，三郡响应。但因错用马谡导致街亭之败，功败垂成。战后，他挥泪斩杀马谡以明军纪，并上疏自贬三等，承担了用人失察的全部责任。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">小说中，街亭战后发生了著名的“空城计”，以智谋吓退司马懿大军。此事为纯粹虚构，当时魏军主帅为张郃，司马懿亦不在前线。</p>
+                    <span class="source-tag source-novel">文学演义</span>
+                </div>
+            </div>
+
+            <!-- Event 11: Later Expeditions -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-slate-500">
+                    <time class="text-sm font-semibold text-slate-500">公元 228 - 231 年</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">屡败屡战的消耗战</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">在接下来的几年里，他继续发动了三次北伐。虽有攻取武都、阴平二郡的战果，并在木门道伏杀魏国名将张郃，但总体上陷入了与魏国的艰苦拉锯战，后勤问题始终是最大掣肘。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+            <!-- Event 12: Wuzhang Plains -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-red-600 md:border-l-4 md:border-r-0">
+                    <time class="text-sm font-semibold text-slate-500">公元 234 年</time>
+                    <h3 class="text-xl font-bold text-red-800 mt-1">星落五丈原</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">发动第五次、也是最后一次北伐，率十万大军与司马懿对峙于五丈原。他实行军屯以解后勤之忧，但司马懿坚守不出。最终，诸葛亮因积劳成疾，病逝于军中，享年54岁，北伐伟业戛然而止。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+            <!-- Event 13: Legacy -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-slate-500">
+                    <time class="text-sm font-semibold text-slate-500">公元 234 年以后</time>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">身后之事与不朽遗产</h3>
+                    <p class="text-slate-600 mt-2 text-sm md:text-base">蜀军遵其遗计安全撤退，留下“死诸葛走生仲达”的典故。他所著《诫子书》成为家教典范，发明的木牛流马、诸葛连弩等亦传为佳话。其“鞠躬尽瘁，死而后已”的精神，使其从一位历史人物升华为中华文化中忠诚与智慧的永恒象征。</p>
+                    <span class="source-tag source-history">正史记载</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

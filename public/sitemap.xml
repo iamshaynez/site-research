@@ -2,9 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://research.xiaowenz.com</loc>
-    <lastmod>2025-07-22</lastmod>
+    <lastmod>2025-07-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://research.xiaowenz.com/history/2025-07-24-zhugeliang-history.html</loc>
+    <lastmod>2025-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://research.xiaowenz.com/history/2025-07-06-diaochan.html</loc>
@@ -75,6 +81,12 @@
   <url>
     <loc>https://research.xiaowenz.com/industry/2025-07-21-visa-data-service-report.html</loc>
     <lastmod>2025-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://research.xiaowenz.com/industry/2024-05-01-china-card-market.html</loc>
+    <lastmod>2024-05-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
