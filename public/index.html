@@ -398,10 +398,38 @@
             font-size: 1.1rem;
             font-weight: 600;
             color: #1d1d1f;
-            max-width: calc(100% - 120px);
+            max-width: calc(100% - 160px);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        .modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .modal-share {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #007aff;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-share:hover {
+            background: rgba(0, 122, 255, 0.2);
+            transform: scale(1.1);
         }
 
         .modal-close {
@@ -423,6 +451,27 @@
         .modal-close:hover {
             background: rgba(0, 0, 0, 0.1);
             transform: scale(1.1);
+        }
+
+        /* Share notification */
+        .share-notification {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 10002;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .share-notification.show {
+            opacity: 1;
         }
 
         .modal-body {
@@ -467,7 +516,17 @@
 
             .modal-title {
                 font-size: 1rem;
-                max-width: calc(100% - 100px);
+                max-width: calc(100% - 140px);
+            }
+
+            .modal-actions {
+                gap: 6px;
+            }
+
+            .modal-share {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
 
             .modal-close {
@@ -478,6 +537,12 @@
 
             .modal-body {
                 padding-top: 50px;
+            }
+            
+            .share-notification {
+                top: 60px;
+                font-size: 0.8rem;
+                padding: 6px 12px;
             }
         }
     </style>
@@ -526,15 +591,25 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="modal-title" id="modal-title">加载中...</div>
-                    <button class="modal-close" onclick="closeModal()" aria-label="关闭">
-                        ✕
-                    </button>
+                    <div class="modal-actions">
+                        <button class="modal-share" onclick="shareArticle()" aria-label="分享" title="复制分享链接">
+                            🔗
+                        </button>
+                        <button class="modal-close" onclick="closeModal()" aria-label="关闭">
+                            ✕
+                        </button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div class="loading-spinner" id="loading-spinner"></div>
                     <iframe class="modal-iframe" id="modal-iframe" style="display: none;"></iframe>
                 </div>
             </div>
+        </div>
+        
+        <!-- Share notification -->
+        <div class="share-notification" id="share-notification">
+            链接已复制到剪贴板
         </div>
     </div>
 
@@ -565,6 +640,7 @@
                 });
                 
                 renderCategories(categoriesData);
+                return Promise.resolve();
             } catch (error) {
                 console.error('Error loading pages:', error);
                 // Fallback content in case of error
@@ -573,6 +649,7 @@
                         <p>暂时无法加载文章列表</p>
                     </div>
                 `;
+                return Promise.reject(error);
             }
         }
 
@@ -759,8 +836,68 @@
             });
         }
 
-        // Modal functionality
-        function openModal(url, title) {
+        // URL management for article sharing
+        function getArticleIdFromUrl(url) {
+            // Extract article ID from URL path (e.g., "history/2025-06-26-chibi.html" -> "history-2025-06-26-chibi")
+            const match = url.match(/([^/]+)\/([^/]+)\.html$/);
+            if (match) {
+                return `${match[1]}-${match[2]}`;
+            }
+            return null;
+        }
+
+        function getUrlFromArticleId(articleId) {
+            // Convert article ID back to URL (e.g., "history-2025-06-26-chibi" -> "history/2025-06-26-chibi.html")
+            const parts = articleId.split('-');
+            if (parts.length >= 4) {
+                const category = parts[0];
+                const rest = parts.slice(1).join('-');
+                return `${category}/${rest}.html`;
+            }
+            return null;
+        }
+
+        function updateUrlHash(articleId, title) {
+            // Update URL hash without triggering page reload
+            const newHash = `#article=${encodeURIComponent(articleId)}&title=${encodeURIComponent(title)}`;
+            history.pushState({ articleId, title }, title, newHash);
+        }
+
+        function clearUrlHash() {
+            // Clear URL hash when closing modal
+            history.pushState({}, document.title, window.location.pathname);
+        }
+
+        function parseUrlHash() {
+            // Parse current URL hash to extract article info
+            const hash = window.location.hash;
+            if (!hash.startsWith('#article=')) {
+                return null;
+            }
+            
+            const params = new URLSearchParams(hash.substring(1));
+            const articleId = params.get('article');
+            const title = params.get('title');
+            
+            if (articleId) {
+                return { articleId, title: title || 'Loading...' };
+            }
+            return null;
+        }
+
+        function findArticleByUrl(targetUrl) {
+            // Find article data by URL across all categories
+            for (const [categoryKey, category] of Object.entries(categoriesData)) {
+                const article = category.articles.find(a => a.url === targetUrl);
+                if (article) {
+                    return { article, categoryKey };
+                }
+            }
+            return null;
+        }
+
+        // Modal functionality with URL support
+        function openModal(url, title, updateUrl = true) {
             const modal = document.getElementById('article-modal');
             const modalTitle = document.getElementById('modal-title');
             const modalIframe = document.getElementById('modal-iframe');
@@ -776,6 +913,14 @@
             
             // Prevent body scroll when modal is open
             document.body.style.overflow = 'hidden';
+            
+            // Update URL hash if requested
+            if (updateUrl) {
+                const articleId = getArticleIdFromUrl(url);
+                if (articleId) {
+                    updateUrlHash(articleId, title);
+                }
+            }
             
             // Load content in iframe
             modalIframe.src = url;
@@ -794,7 +939,7 @@
             };
         }
 
-        function closeModal() {
+        function closeModal(updateUrl = true) {
             const modal = document.getElementById('article-modal');
             const modalIframe = document.getElementById('modal-iframe');
             
@@ -804,6 +949,11 @@
             // Restore body scroll
             document.body.style.overflow = 'auto';
             
+            // Clear URL hash if requested
+            if (updateUrl) {
+                clearUrlHash();
+            }
+            
             // Clear iframe source after animation completes to free resources
             setTimeout(() => {
                 modalIframe.src = 'about:blank';
@@ -812,10 +962,110 @@
             }, 300);
         }
 
+        // Handle browser back/forward buttons
+        function handlePopState(event) {
+            const articleInfo = parseUrlHash();
+            
+            if (articleInfo) {
+                // URL has article hash, open the modal
+                const url = getUrlFromArticleId(articleInfo.articleId);
+                if (url) {
+                    const articleData = findArticleByUrl(url);
+                    if (articleData) {
+                        openModal(url, articleData.article.title, false);
+                    } else {
+                        // Article not found, clear hash
+                        clearUrlHash();
+                    }
+                }
+            } else {
+                // No article hash, close modal
+                const modal = document.getElementById('article-modal');
+                if (modal.classList.contains('show')) {
+                    closeModal(false);
+                }
+            }
+        }
+
+        // Check URL on page load and open article if specified
+        function checkInitialUrl() {
+            const articleInfo = parseUrlHash();
+            if (articleInfo && Object.keys(categoriesData).length > 0) {
+                const url = getUrlFromArticleId(articleInfo.articleId);
+                if (url) {
+                    const articleData = findArticleByUrl(url);
+                    if (articleData) {
+                        // Small delay to ensure page is fully loaded
+                        setTimeout(() => {
+                            openModal(url, articleData.article.title, false);
+                        }, 100);
+                    } else {
+                        // Article not found, clear hash
+                        clearUrlHash();
+                    }
+                }
+            }
+        }
+
+        // Share article functionality
+        function shareArticle() {
+            const currentUrl = window.location.href;
+            
+            // Copy to clipboard
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(currentUrl).then(() => {
+                    showShareNotification();
+                }).catch(err => {
+                    console.error('Failed to copy to clipboard:', err);
+                    fallbackCopyToClipboard(currentUrl);
+                });
+            } else {
+                fallbackCopyToClipboard(currentUrl);
+            }
+        }
+
+        // Fallback copy method for older browsers
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showShareNotification();
+                } else {
+                    console.error('Failed to copy to clipboard');
+                }
+            } catch (err) {
+                console.error('Failed to copy to clipboard:', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Show share notification
+        function showShareNotification() {
+            const notification = document.getElementById('share-notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
         // Add smooth scrolling and entrance animations
         document.addEventListener('DOMContentLoaded', function() {
             // Load pages data first
-            loadPages();
+            loadPages().then(() => {
+                // Check URL after data is loaded to open article if specified
+                checkInitialUrl();
+            });
             
             // Add fade-in animation to initial elements (header and social section)
             const initialElements = document.querySelectorAll('.header, .social-section');
@@ -848,6 +1098,9 @@
             modalContent.addEventListener('click', function(e) {
                 e.stopPropagation();
             });
+            
+            // Listen for browser back/forward button events
+            window.addEventListener('popstate', handlePopState);
         });
     </script>
 </body>
