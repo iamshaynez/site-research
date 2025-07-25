@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【信息图】绫辻行人作品编年史</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #fdf6e3; /* Solarized Light Background */
+            color: #657b83; /* Solarized Base00 Text */
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #eee8d5; /* Solarized Base2 */
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            width: 100%;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            width: 20px;
+            height: 20px;
+            background-color: #cb4b16; /* Solarized Orange */
+            border: 4px solid #fdf6e3; /* Solarized Light Background */
+            border-radius: 50%;
+            z-index: 1;
+        }
+        @media (min-width: 768px) {
+            .timeline-item {
+                width: 50%;
+            }
+            .timeline-item.left {
+                padding-right: 40px;
+                padding-left: 0;
+                text-align: right;
+            }
+            .timeline-item.right {
+                padding-left: 40px;
+                padding-right: 0;
+                left: 50%;
+            }
+            .timeline-item.left::after {
+                right: -12px;
+            }
+            .timeline-item.right::after {
+                left: -12px;
+            }
+        }
+        @media (max-width: 767px) {
+             .timeline-container::before {
+                left: 10px;
+                transform: translateX(0);
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 40px;
+                padding-right: 0;
+            }
+            .timeline-item::after {
+                left: -0.25rem;
+            }
+        }
+        .card {
+            background-color: #eee8d5; /* Solarized Base2 */
+            border-left: 5px solid #268bd2; /* Solarized Blue */
+        }
+        .card-title {
+            color: #d33682; /* Solarized Magenta */
+        }
+        .card-subtitle {
+            color: #859900; /* Solarized Green */
+        }
+        .card-heading {
+            color: #2aa198; /* Solarized Cyan */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto px-4 py-12">
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#b58900] mb-3">绫辻行人作品编年史</h1>
+            <p class="text-lg text-[#586e75]">一部新本格推理的演化之路</p>
+        </header>
+
+        <div class="relative timeline-container py-4">
+            <!-- Timeline Item: 1987 -->
+            <div class="timeline-item mb-12 md:mb-8 right">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">1987</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《十角馆杀人预告》</h2>
+                    <p class="text-sm card-subtitle mb-4">『十角館の殺人』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">大学推理研究会成员前往孤岛上的奇特十角形建筑合宿，成员接连被杀。与此同时，本土的前成员收到了来自本应已故的建筑师的信件，与神秘男子岛田洁一同展开调查。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">“新本格”派的开山之作，以“仅一行”的叙述性诡计震撼业界，被誉为小说这种媒介才能实现的诡计巅峰，是日本推理史上划时代的杰作。</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item: 1988 (Water Mill) -->
+            <div class="timeline-item mb-12 md:mb-8 left">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">1988</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《水车馆幻影》</h2>
+                    <p class="text-sm card-subtitle mb-4">『水車館の殺人』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">围绕一座有着巨大水车的古怪馆邸，讲述了关于假面馆主、被囚禁的美少女以及一年前的密室悬案。故事在过去与现在两条时间线间交替叙述。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">风格上回归更传统的本格推理，充满哥特式恐怖氛围。虽被部分读者认为诡计相对易猜，但其严谨的逻辑与氛围营造仍备受好评。</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item: 1988 (Labyrinth) -->
+            <div class="timeline-item mb-12 md:mb-8 right">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">1988</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《迷宫馆的诱惑》</h2>
+                    <p class="text-sm card-subtitle mb-4">『迷路館の殺人』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">四位推理作家被召集至地下迷宫馆，为争夺已故作家的巨额遗产而展开写作竞赛。然而，参赛者开始依照他们自己小说的情节被一一杀害。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">采用“作中作”结构，设下多重诡计，是智识游戏与元小说趣味的极致体现。荣获1988年“这本推理小说了不起！”第7名，是早期代表作之一。</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item: 1989 -->
+            <div class="timeline-item mb-12 md:mb-8 left">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">1989</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《人偶馆之谜》</h2>
+                    <p class="text-sm card-subtitle mb-4">『人形館の殺人』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">一位父亲为亡女建造了一座充满等身人偶的宅邸。数年后，命案在此发生，现场的种种迹象似乎暗示着人偶具有了生命。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">“馆系列”中风格独特的一作，相比纯粹的解谜，更侧重于心理悬疑与怪诞氛围的营造，展现了作者创作上的灵活性。</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item: 1990 -->
+            <div class="timeline-item mb-12 md:mb-8 right">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">1990</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《雾越邸杀人事件》</h2>
+                    <p class="text-sm card-subtitle mb-4">『霧越邸殺人事件』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">一个剧团因暴风雪被困于深山中的神秘宅邸“雾越邸”。邸内怪事频发，成员们开始按照一首童谣的歌词顺序被谋杀。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">被誉为绫辻行人的最高杰作之一。成功地将超自然、怪奇幻想的氛围与严谨的本格推理逻辑相结合，创造出独特的阅读体验。</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item: 1991 -->
+            <div class="timeline-item mb-12 md:mb-8 left">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">1991</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《钟表馆幽灵》</h2>
+                    <p class="text-sm card-subtitle mb-4">『時計館の殺人』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">一群人为进行通灵调查而进入一座拥有上百座时钟的“钟表馆”。馆内时间流逝异常，众人被困后，假面杀手展开杀戮。馆外，侦探岛田洁也在追查真相。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">公认的“馆系列”巅峰之作，荣获第45届日本推理作家协会奖。其核心诡计之大胆、宏大与公平性，被推崇为本格推理的典范。</p>
+                </div>
+            </div>
+            
+            <!-- Timeline Item: 2004 -->
+            <div class="timeline-item mb-12 md:mb-8 right">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">2004</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《暗黑馆不死传说》</h2>
+                    <p class="text-sm card-subtitle mb-4">『暗黒館の殺人』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">大学生“中也”受邀来到与世隔绝的湖心岛上的“暗黑馆”。在参加了名为“大丽花日”的诡异仪式后，恐怖的连环杀人拉开序幕，深入浦登一族的黑暗历史。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">“馆系列”的集大成之作，被誉为“新五大奇书”之一。其压倒性的哥特氛围、史诗般的叙事格局和对系列过往主题的总结，使其成为粉丝心中的“圣经”。</p>
+                </div>
+            </div>
+            
+            <!-- Timeline Item: 2009 -->
+            <div class="timeline-item mb-12 md:mb-8 left">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">2009</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《替身》</h2>
+                    <p class="text-sm card-subtitle mb-4">『Another』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">转校生榊原恒一来到夜见山北中学三年三班，发现班级被一种源于26年前的“灾厄”所笼罩，每年会多出一个“死者”，引发一连串的意外死亡。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">现象级畅销书，被改编为热门动画及电影。它将校园青春、超自然恐怖与本格悬疑完美融合，是作者创作生涯的又一高峰。</p>
+                </div>
+            </div>
+            
+            <!-- Timeline Item: 2012 -->
+            <div class="timeline-item mb-12 md:mb-8 right">
+                <div class="card p-6 rounded-lg shadow-md">
+                    <p class="text-2xl font-bold text-[#cb4b16]">2012</p>
+                    <h2 class="text-2xl font-bold card-title mt-2">《奇面馆事件》</h2>
+                    <p class="text-sm card-subtitle mb-4">『奇面館の殺人』</p>
+                    <h3 class="font-bold card-heading mb-2">剧情概要</h3>
+                    <p class="text-sm mb-4">一位隐居作家邀请客人到访其宅邸，要求所有人都必须佩戴指定的面具。一桩命案发生，但谜题的复杂之处在于，受害者可能在被“谋杀”前早已死亡。</p>
+                    <h3 class="font-bold card-heading mb-2">推理界评价</h3>
+                    <p class="text-sm">展现了作者在创作后期对本格形式的持续实验。谜题的乐趣并非来自最后的惊天逆转，而是欣赏其悲剧逻辑的展开过程。</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

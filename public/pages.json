@@ -1,5 +1,16 @@
 {
   "categories": {
+    "literature": {
+      "name": "文学 Literature",
+      "icon": "📖",
+      "articles": [
+        {
+          "title": "【信息图】绫辻行人作品编年史",
+          "url": "literature/2025-07-25-yukito-ayatsuji.html",
+          "date": "2025-07-25"
+        }
+      ]
+    },
     "history": {
       "name": "历史 History",
       "icon": "📚",
